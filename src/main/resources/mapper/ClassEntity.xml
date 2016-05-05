@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shijie99.wcf.dao.StudentDao">
+	<resultMap type="ClassEntity" id="classResultMap">
+		<id property="classID" column="CLASS_ID" />
+		<result property="className" column="CLASS_NAME" />
+		<result property="classYear" column="CLASS_YEAR" />
+		<association property="teacherEntity" column="TEACHER_ID" select="getTeacher" />
+	</resultMap>
+	
+	<select id="getClassByID" parameterType="String" resultMap="classResultMap">
+		<![CDATA[
+			SELECT *
+			 FROM CLASS_TBL CT
+			 WHERE CT.CLASS_ID = #{classID};
+		]]>
+	</select>
+	
+	<insert id="saveClass" parameterType="ClassEntity">
+		insert into CLASS_TBL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="classID != null ">
+				CLASSID,
+			</if>
+			<if test="className != null">
+				CLASS_NAME,
+			</if>
+			<if test="classYear != null">
+				CLASS_YEAR,
+			</if>
+			<if test="teacherEntity != null">
+				TEACHER_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		<if test="classID != null ">
+				#{classID},
+			</if>
+			<if test="className != null">
+				#{className},
+			</if>
+			<if test="classYear != null">
+				#{classYear},
+			</if>
+			<if test="teacherEntity != null">
+				#{teacherEntity.teacherID},
+			</if>
+		</trim>
+	</insert>
+</mapper>

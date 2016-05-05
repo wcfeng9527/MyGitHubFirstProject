@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shijie99.wcf.dao.StudentDao">
+	<resultMap type="TeacherEntity" id="teacherResultMap">
+		<id property="teacherEntity" column="TEACHER_ID"/>
+		<result property="teacherName" column="TEACHER_NAME"/>
+		<result property="teacherSex" column="TEACHER_SEX"/>
+		<result property="teacherBirthday" column="TEACHER_BIRTHDAT"/>
+		<result property="workDate" column="WORK_DATE"/>
+	</resultMap>
+
+	<select id="getTeacher" parameterType="String" resultMap="teacherResultMap">
+		 <![CDATA[ 
+		 	select * 
+		 		from TEACHER_TBL TT  
+    		 	WHERE TT.TEACHER_ID = #{teacherID}
+		  ]]>
+	</select>
+	
+	<insert id="saveTeacher" parameterType="TeacherEntity">
+		insert into TEACHER_TBL
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="teacherID != null">
+				TEACHER_ID,
+			</if>
+			<if test="teacherName != null">
+				TEACHER_NAME,
+			</if>
+			<if test="teacherSex != null">
+				TEACHER_SEX,
+			</if>
+			<if test="teacherBirthday">
+				TEACHER_BIRTHDAT,
+			</if>
+			<if test="workDate != null">
+				WORK_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="teacherID != null">
+				#{teacherID},
+			</if>
+			<if test="teacherName != null">
+				#{teacherName},
+			</if>
+			<if test="teacherSex != null">
+				#{teacherSex},
+			</if>
+			<if test="teacherBirthday">
+				#{teacherBirthday},
+			</if>
+			<if test="workDate != null">
+				#{workDate},
+			</if>
+		</trim>
+	</insert>
+</mapper>
